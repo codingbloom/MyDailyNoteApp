@@ -161,7 +161,7 @@ fun NavigationDrawer(
 
                         Image(
                             modifier = Modifier.padding(top = 18.dp, bottom = 12.dp),
-                            painter = painterResource(id = R.drawable.ic_diary_logo),
+                            painter = painterResource(id = R.drawable.ic_logo),
                             contentDescription = null
                         )
 

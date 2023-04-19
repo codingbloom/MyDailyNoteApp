@@ -7,12 +7,14 @@ import android.ktcodelab.mydailynote.data.database.entity.ImageToDelete
 import android.ktcodelab.mydailynote.data.repository.MongoDB
 import android.ktcodelab.mydailynote.data.repository.Notes
 import android.ktcodelab.mydailynote.data.repository.RequestState
+import android.ktcodelab.mydailynote.util.Constants.APP_ID
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.realm.kotlin.mongodb.App
 import kotlinx.coroutines.*
 import java.time.ZonedDateTime
 import javax.inject.Inject
@@ -30,7 +32,7 @@ class HomeViewModel @Inject constructor(
     private lateinit var allNotesJob: Job
     private lateinit var filteredNotesJob: Job
 
-    private var network by mutableStateOf(ConnectivityObserver.Status.Unavailable)
+    var network by mutableStateOf(ConnectivityObserver.Status.Unavailable)
 
     var notes: MutableState<Notes> = mutableStateOf(RequestState.Idle)
 

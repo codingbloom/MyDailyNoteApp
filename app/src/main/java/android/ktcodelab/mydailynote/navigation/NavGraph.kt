@@ -1,6 +1,7 @@
 package android.ktcodelab.mydailynote.navigation
 
 import android.ktcodelab.mydailynote.R
+import android.ktcodelab.mydailynote.connectivity.ConnectivityObserver
 import android.ktcodelab.mydailynote.data.repository.MongoDB
 import android.ktcodelab.mydailynote.model.MoodModel
 import android.ktcodelab.mydailynote.presentation.components.DisplayAlertDialog
@@ -15,6 +16,7 @@ import android.ktcodelab.mydailynote.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import android.ktcodelab.mydailynote.data.repository.RequestState
 import android.ktcodelab.mydailynote.pref.ModeViewModel
 import android.ktcodelab.mydailynote.pref.UserPref
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -156,6 +158,7 @@ fun NavGraphBuilder.homeRoute(
 
         val viewModel: HomeViewModel = hiltViewModel()
         val notes by viewModel.notes
+        val network = viewModel.network
 
         var isSuccess by remember {
             mutableStateOf(true)
@@ -225,17 +228,24 @@ fun NavGraphBuilder.homeRoute(
             onCloseDialog = { signOutDialogOpened = false },
             onYesClicked = {
 
-                scope.launch(Dispatchers.IO) {
+                if (network == ConnectivityObserver.Status.Available){
 
-                    val user = App.create(APP_ID).currentUser
+                    scope.launch(Dispatchers.IO) {
 
-                    if (user != null) {
-                        withContext(Dispatchers.Main) {
-                            navigateToAuth()
+                        val user = App.create(APP_ID).currentUser
+
+                        if (user != null) {
+                            withContext(Dispatchers.Main) {
+
+                                navigateToAuth()
+                            }
+                            user.logOut()
                         }
-                        user.logOut()
                     }
+                } else {
+                    navigateToAuth()
                 }
+
             }
         )
 

@@ -61,7 +61,6 @@ object MongoDB : MongoRepository {
                     .asFlow()
                     .map { result ->
 
-                        Log.d("TAG", "getAllNotes: ${result.list}")
                         RequestState.Success(
 
                             data = result.list.groupBy {
