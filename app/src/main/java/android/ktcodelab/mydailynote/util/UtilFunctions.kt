@@ -31,9 +31,6 @@ fun RealmInstant.toInstant(): Instant {
     }
 }
 
-
-
-
 fun Instant.toRealmInstant(): RealmInstant {
     val sec: Long = this.epochSecond
     val nano: Int = this.nano
@@ -68,8 +65,8 @@ fun fetchImagesFromFirebase(
                 FirebaseStorage.getInstance().reference.child(remoteImagePath.trim()).downloadUrl
                     .addOnSuccessListener{
 
-                        Log.d("TAG", "DownloadURL: $it")
                         onImageDownload(it)
+
                         if (remoteImagePaths.lastIndexOf(remoteImagePaths.last()) == index) {
 
                             onReadyToDisplay()

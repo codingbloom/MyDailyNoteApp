@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import android.ktcodelab.mydailynote.R
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun AuthenticationContent(
@@ -38,10 +39,16 @@ fun AuthenticationContent(
             ) {
                 Image(
                     modifier = Modifier.size(120.dp),
-                    painter = painterResource(id = R.drawable.google_logo),
-                    contentDescription = "Google Logo"
+                    painter = painterResource(id = R.drawable.ic_logo),
+                    contentDescription = "Logo"
                 )
                 Spacer(modifier = Modifier.height(20.dp))
+
+                Text(
+                    text = stringResource(id = R.string.hi),
+                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                    fontWeight = FontWeight.Bold
+                )
 
                 Text(text = stringResource(id = R.string.auth_title), fontSize = MaterialTheme.typography.titleLarge.fontSize)
 

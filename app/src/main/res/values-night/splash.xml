@@ -4,7 +4,6 @@
 
         <item name="windowSplashScreenBackground">#0E121B</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo</item>
-        <item name="windowSplashScreenAnimationDuration">5000</item>
         <item name="postSplashScreenTheme">@style/Theme.MyDailyNote</item>
 
         <item name="android:windowActionBar">false</item>

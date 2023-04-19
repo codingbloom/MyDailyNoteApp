@@ -1,5 +1,9 @@
 package android.ktcodelab.mydailynote.util
 
+import android.annotation.SuppressLint
+import android.ktcodelab.mydailynote.R
+
+@SuppressLint("NonConstantResourceId")
 object Constants {
 
     const val APP_ID = "mydailynoteapp-uexpf"

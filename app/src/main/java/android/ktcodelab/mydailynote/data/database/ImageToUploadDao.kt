@@ -8,7 +8,6 @@ import androidx.room.Query
 
 @Dao
 interface ImageToUploadDao {
-
     @Query("SELECT * FROM image_to_upload_table ORDER BY id ASC")
     suspend fun getAllImages(): List<ImageToUpload>
 

@@ -16,7 +16,7 @@ enum class MoodModel(
         icon = R.drawable.ic_neutral,
         contentColor = Color.Black,
         containerColor = NeutralColor,
-        backgroundColor = LightGray
+        backgroundColor = NeutralColor
     ),
     Happy(
         icon = R.drawable.ic_happy,

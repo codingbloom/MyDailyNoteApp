@@ -52,7 +52,6 @@ fun SetupNavGraph(
     ) {
         authenticationRoute(
             navigateToHome = {
-
                 navController.popBackStack()
                 navController.navigate(Screen.Home.route)
             },
@@ -69,12 +68,11 @@ fun SetupNavGraph(
             navigateToAuth = {
 
                 navController.popBackStack()
-
                 navController.navigate(Screen.Authentication.route)
             },
             onDataLoaded = onDataLoaded,
             userPref = userPref,
-            modeViewModel = modeViewModel
+            modeViewModel = modeViewModel,
         )
 
         writeRoute(
@@ -158,9 +156,15 @@ fun NavGraphBuilder.homeRoute(
 
         val viewModel: HomeViewModel = hiltViewModel()
         val notes by viewModel.notes
+
+        var isSuccess by remember {
+            mutableStateOf(true)
+        }
+
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
+
         var signOutDialogOpened by remember {
             mutableStateOf(false)
         }
@@ -173,8 +177,15 @@ fun NavGraphBuilder.homeRoute(
 
             if (notes !is RequestState.Loading) {
                 onDataLoaded()
+
+                if (isSuccess){
+                    viewModel.getNotes()
+                    isSuccess = false
+                }
             }
         }
+
+
         HomeScreen(
             notes = notes,
             drawerState = drawerState,
@@ -200,15 +211,15 @@ fun NavGraphBuilder.homeRoute(
             modeViewModel = modeViewModel
         )
 
+
         /*------------------MongoDB Sync----------------------*/
 
         LaunchedEffect(key1 = Unit) {
-
             MongoDB.configureTheRealm()
         }
 
         DisplayAlertDialog(
-            title = context.getString(R.string.sign_out_alert_dialog_title),
+            title = context.getString(R.string.sign_out),
             message = context.getString(R.string.sign_out_alert_dialog_message),
             dialogOpened = signOutDialogOpened,
             onCloseDialog = { signOutDialogOpened = false },
@@ -219,12 +230,10 @@ fun NavGraphBuilder.homeRoute(
                     val user = App.create(APP_ID).currentUser
 
                     if (user != null) {
-
                         withContext(Dispatchers.Main) {
                             navigateToAuth()
                         }
                         user.logOut()
-
                     }
                 }
             }
@@ -263,6 +272,7 @@ fun NavGraphBuilder.homeRoute(
             }
         )
     }
+
 }
 
 //---------------------------------------- Write Screen ----------------------------------------
@@ -288,8 +298,6 @@ fun NavGraphBuilder.writeRoute(
         val pageNumber by remember {
             derivedStateOf { pagerState.currentPage }
         }
-
-        //LaunchedEffect(key1 = uiState) {Log.d("SelectedNoteId", "${uiState.selectedNoteId}") }
 
         WriteScreen(
             uiState = uiState,
@@ -329,8 +337,6 @@ fun NavGraphBuilder.writeRoute(
                 val type = context.contentResolver.getType(it)?.split("/")?.last() ?: "jpg"
 
                 viewModel.addImage(image = it, imageType = type)
-
-                //Log.d("TAG", "URI: $it")
             },
         ) {
             galleryState.removeImage(it)

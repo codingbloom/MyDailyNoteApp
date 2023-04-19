@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
@@ -32,12 +33,13 @@ fun HomeTopBar(
     modeViewModel: ModeViewModel
 ) {
 
+    val context = LocalContext.current
+
     //STATEs
     val dateDialog = rememberSheetState()
     var pickedDate by remember { mutableStateOf(LocalDate.now()) }
 
     var onModeClick by remember {
-
         modeViewModel.isDarkModeEnabled
     }
     val scope = rememberCoroutineScope()
@@ -53,7 +55,7 @@ fun HomeTopBar(
             }
         },
         title = {
-            Text(text = "Note")
+            Text(text = context.getString(R.string.home_screen_topbar_title))
         },
         actions = {
 
@@ -68,7 +70,6 @@ fun HomeTopBar(
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
-
 
             if (dateIsSelected) {
 

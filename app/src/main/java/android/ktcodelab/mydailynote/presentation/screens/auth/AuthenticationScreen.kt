@@ -18,7 +18,6 @@ import com.stevdzasan.messagebar.MessageBarState
 import com.stevdzasan.onetap.OneTapSignInState
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 
-
 @ExperimentalMaterial3Api
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -31,7 +30,7 @@ fun AuthenticationScreen(
     onSuccessfulFirebaseSignIn: (String) -> Unit,
     onFailedFirebaseSignIn: (Exception) -> Unit,
     onDialogDismissed: (String) -> Unit,
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
 ) {
 
     Scaffold(
@@ -54,6 +53,7 @@ fun AuthenticationScreen(
         state = oneTapState,
         clientId = CLIENT_ID,
         onTokenIdReceived = { tokenId ->
+
             val credential = GoogleAuthProvider.getCredential(tokenId, null)
 
             FirebaseAuth.getInstance().signInWithCredential(credential)
@@ -75,7 +75,6 @@ fun AuthenticationScreen(
     )
 
     LaunchedEffect(key1 = authenticated) {
-
         if (authenticated) navigateToHome()
     }
 }

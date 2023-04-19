@@ -14,7 +14,7 @@ open class NoteModel: RealmObject {
     @PrimaryKey
     var _id: ObjectId = io.realm.kotlin.types.ObjectId.create()
     var owner_id: String = ""
-    var mood: String = MoodModel.Neutral.name //Return the Mood Name, like ->
+    var mood: String = MoodModel.Neutral.name
     var title: String = ""
     var description: String = ""
     var images: RealmList<String> = realmListOf()

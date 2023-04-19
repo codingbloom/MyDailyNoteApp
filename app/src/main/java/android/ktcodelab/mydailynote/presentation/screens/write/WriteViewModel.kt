@@ -261,8 +261,6 @@ class WriteViewModel @Inject constructor(
         val remoteImagePath = "images/${FirebaseAuth.getInstance().currentUser?.uid}/" +
                 "${image.lastPathSegment}-${System.currentTimeMillis()}.$imageType"
 
-        //Log.d("TAG", "addImage: $remoteImagePath")
-
         galleryState.addImage(
 
             GalleryImage(
@@ -353,8 +351,6 @@ class WriteViewModel @Inject constructor(
     }
 
 }
-
-
 
 data class UiState(
 

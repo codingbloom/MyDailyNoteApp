@@ -31,7 +31,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -52,7 +51,7 @@ fun HomeScreen(
     navigateToWrite: () -> Unit,
     navigateToWriteWithArgs: (String) -> Unit,
     userPref: UserPref,
-    modeViewModel: ModeViewModel
+    modeViewModel: ModeViewModel,
 ) {
 
     //STATEs
@@ -111,7 +110,7 @@ fun HomeScreen(
                         HomeContent(
                             paddingValues = it,
                             dailyNotes = notes.data,
-                            onClick = navigateToWriteWithArgs
+                            onClick = navigateToWriteWithArgs,
                         )
                     }
                     is RequestState.Error -> {
@@ -125,7 +124,7 @@ fun HomeScreen(
 
                         Box(Modifier.fillMaxSize(), Alignment.Center) {
 
-                            CircularProgressIndicator(color = Color.Gray)
+                            CircularProgressIndicator(color = Color.Red)
                         }
                     }
                     else -> {}
@@ -145,6 +144,7 @@ fun NavigationDrawer(
 
     val currentUser = Firebase.auth.currentUser
 
+    /*-----------------------------Navigation Drawer---------------------------*/
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -162,7 +162,7 @@ fun NavigationDrawer(
                         Image(
                             modifier = Modifier.padding(top = 18.dp, bottom = 12.dp),
                             painter = painterResource(id = R.drawable.ic_diary_logo),
-                            contentDescription = null,
+                            contentDescription = null
                         )
 
                         Text(

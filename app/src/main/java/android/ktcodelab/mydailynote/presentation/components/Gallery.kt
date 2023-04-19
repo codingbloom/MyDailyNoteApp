@@ -208,7 +208,6 @@ fun LastImageOverlay(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddImageButton(
 

@@ -39,7 +39,7 @@ fun NoteHolder(
     note: NoteModel,
     onClick: (String) -> Unit,
 ) {
-    var localDensity = LocalDensity.current
+    val localDensity = LocalDensity.current
 
     val context = LocalContext.current
 

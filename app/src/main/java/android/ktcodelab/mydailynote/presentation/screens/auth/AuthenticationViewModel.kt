@@ -9,9 +9,6 @@ import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.GoogleAuthType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -34,7 +31,6 @@ class AuthenticationViewModel : ViewModel() {
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-
         viewModelScope.launch {
 
             try {
@@ -51,8 +47,9 @@ class AuthenticationViewModel : ViewModel() {
                     if (result) {
 
                         onSuccess()
-                        delay(200)
+                        delay(300)
                         authenticated.value = true
+
                     } else {
                         onError(Exception("User is not logged in."))
                     }

@@ -3,6 +3,7 @@ package android.ktcodelab.mydailynote.data.repository
 import android.ktcodelab.mydailynote.model.NoteModel
 import android.ktcodelab.mydailynote.util.Constants.APP_ID
 import android.ktcodelab.mydailynote.util.toInstant
+import android.util.Log
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.log.LogLevel
@@ -21,8 +22,6 @@ import java.time.ZonedDateTime
 
 object MongoDB : MongoRepository {
 
-    private val app = App.create(APP_ID)
-    private val user = app.currentUser
     private lateinit var realm: Realm
 
     init {
@@ -30,6 +29,8 @@ object MongoDB : MongoRepository {
     }
 
     override fun configureTheRealm() {
+
+        val user = App.create(APP_ID).currentUser
 
         if (user != null) {
 
@@ -50,15 +51,17 @@ object MongoDB : MongoRepository {
     /*---------------------Get All Notes--------------------------------*/
     override fun getAllNotes(): Flow<Notes> {
 
+        val user = App.create(APP_ID).currentUser
+
         return if (user != null) {
 
             try {
-
                 realm.query<NoteModel>(query = "owner_id == $0", user.id)
                     .sort(property = "date", sortOrder = Sort.DESCENDING)
                     .asFlow()
                     .map { result ->
 
+                        Log.d("TAG", "getAllNotes: ${result.list}")
                         RequestState.Success(
 
                             data = result.list.groupBy {
@@ -69,21 +72,22 @@ object MongoDB : MongoRepository {
 
                         )
                     }
-
             } catch (e: Exception) {
 
                 flow { emit(RequestState.Error(e)) }
             }
-
         } else {
 
             flow { emit(RequestState.Error(UserNoteAuthenticatedException())) }
         }
     }
 
+
     /*---------------------Filter Notes--------------------------------*/
 
     override fun getFilteredNotes(zonedDateTime: ZonedDateTime): Flow<Notes> {
+
+        val user = App.create(APP_ID).currentUser
 
         return if (user != null) {
 
@@ -139,6 +143,8 @@ object MongoDB : MongoRepository {
     /*---------------------Fetch Note From MongoDB--------------------------------*/
     override fun getSelectedNote(noteId: io.realm.kotlin.types.ObjectId): Flow<RequestState<NoteModel>> {
 
+        val user = App.create(APP_ID).currentUser
+
         return if (user != null) {
 
             try {
@@ -161,6 +167,8 @@ object MongoDB : MongoRepository {
 
     /*---------------------Add New Note--------------------------------*/
     override suspend fun insertNote(note: NoteModel): RequestState<NoteModel> {
+
+        val user = App.create(APP_ID).currentUser
 
         return if (user != null) {
 
@@ -189,6 +197,7 @@ object MongoDB : MongoRepository {
 
     override suspend fun updateNote(note: NoteModel): RequestState<NoteModel> {
 
+        val user = App.create(APP_ID).currentUser
 
         return if (user != null) {
 
@@ -221,6 +230,8 @@ object MongoDB : MongoRepository {
     /*--------------------------Delete Single Note-------------------------*/
 
     override suspend fun deleteNote(id: ObjectId): RequestState<Boolean> {
+
+        val user = App.create(APP_ID).currentUser
 
         return if (user != null) {
 
@@ -257,6 +268,7 @@ object MongoDB : MongoRepository {
 
     override suspend fun deleteAllNotes(): RequestState<Boolean> {
 
+        val user = App.create(APP_ID).currentUser
 
         return if (user != null) {
 
@@ -282,7 +294,6 @@ object MongoDB : MongoRepository {
             RequestState.Error(UserNoteAuthenticatedException())
         }
     }
-
 
 }
 

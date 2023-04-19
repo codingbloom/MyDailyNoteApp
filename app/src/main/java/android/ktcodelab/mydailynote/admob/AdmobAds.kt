@@ -6,6 +6,7 @@ import android.ktcodelab.mydailynote.util.findActivity
 import android.util.Log
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -21,10 +22,14 @@ fun AdMobAds() {
 
     val firebaseFireStore = Firebase.firestore
     val currentWidth = LocalConfiguration.current.screenWidthDp
+    val context = LocalContext.current
 
     /*-----------------------------Fetch Data From Firebase------------------------------*/
 
-    val docRef = firebaseFireStore.collection("Admob_Ads").document("ZriRoGYwP4fIZrfavHWv")
+    val docRef = firebaseFireStore
+        .collection(context.getString(R.string.firebase_collection))
+        .document(context.getString(R.string.firebase_document_ID))
+
     docRef.addSnapshotListener(EventListener { value, error ->
 
         if (error != null) {
@@ -72,7 +77,7 @@ fun loadInterstitial(context: Context){
             override fun onAdFailedToLoad(adError: LoadAdError) {
 
                 mInterstitialAd = null
-                Log.d("MainActivity", adError.message)
+                Log.d("TAG", adError.message)
             }
         }
     )

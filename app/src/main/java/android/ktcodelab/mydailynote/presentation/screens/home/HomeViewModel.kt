@@ -7,7 +7,6 @@ import android.ktcodelab.mydailynote.data.database.entity.ImageToDelete
 import android.ktcodelab.mydailynote.data.repository.MongoDB
 import android.ktcodelab.mydailynote.data.repository.Notes
 import android.ktcodelab.mydailynote.data.repository.RequestState
-import android.ktcodelab.mydailynote.model.NoteModel
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import java.time.LocalDate
 import java.time.ZonedDateTime
 import javax.inject.Inject
 
@@ -41,9 +39,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         getNotes()
-
         viewModelScope.launch {
-
             connectivity.observe().collect { network = it }
         }
     }
@@ -72,13 +68,13 @@ class HomeViewModel @Inject constructor(
 
                 filteredNotesJob.cancelAndJoin()
             }
+
             MongoDB.getAllNotes().collect { result ->
 
                 notes.value = result
             }
         }
     }
-
 
     //Filter Notes
     private fun observeFilteredNotes(zonedDateTime: ZonedDateTime) {

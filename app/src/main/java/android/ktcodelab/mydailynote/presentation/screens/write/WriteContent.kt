@@ -1,5 +1,6 @@
 package android.ktcodelab.mydailynote.presentation.screens.write
 
+import android.ktcodelab.mydailynote.R
 import android.ktcodelab.mydailynote.admob.loadInterstitial
 import android.ktcodelab.mydailynote.admob.showInterstitial
 import android.ktcodelab.mydailynote.data.repository.GalleryImage
@@ -118,7 +119,7 @@ fun WriteContent(
                 onValueChange = onTitleChanged,
                 textStyle = TextStyle(color = DarkGray, fontSize = 18.sp, FontWeight.Bold),
                 placeholder = {
-                    Text(text = "Title")
+                    Text(text = context.getString(R.string.textfield_title_placeholder))
                 },
                 colors = TextFieldDefaults.textFieldColors(
 
@@ -153,7 +154,7 @@ fun WriteContent(
                 onValueChange = onDescriptionChanged,
                 textStyle = TextStyle(color = DarkGray, fontSize = 16.sp, lineHeight = 20.sp),
                 placeholder = {
-                    Text(text = "Write Something...")
+                    Text(text = context.getString(R.string.textfield_description_placeholder))
                 },
                 colors = TextFieldDefaults.textFieldColors(
 
@@ -209,13 +210,9 @@ fun WriteContent(
                                     galleryState.images.map { it.remoteImagePath }.toRealmList()
                             }
                         )
-                        //Showing Interstitial ads
+                        //------------------------Showing Interstitial ads------------------------------
                         showInterstitial(context)
-                        /*if (adsModel.ad_status){
-                            //showInterstitial(context)
-                            interstitialAds()
-
-                        }*/
+                        //------------------------Interstitial ads------------------------------
 
                     } else {
 

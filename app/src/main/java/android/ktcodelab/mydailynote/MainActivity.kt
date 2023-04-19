@@ -130,6 +130,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
+@Suppress("DEPRECATION")
 private fun getCurrentVersionCode(context: Context): Int {
 
     val packageManager = context.packageManager
@@ -217,6 +218,5 @@ private fun cleanupCheck(
 private fun getStartDestination(): String {
 
     val user = App.create(APP_ID).currentUser
-
     return if (user != null && user.loggedIn) Screen.Home.route else Screen.Authentication.route
 }

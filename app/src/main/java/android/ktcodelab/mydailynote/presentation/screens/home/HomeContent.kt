@@ -1,5 +1,6 @@
 package android.ktcodelab.mydailynote.presentation.screens.home
 
+import android.annotation.SuppressLint
 import android.ktcodelab.mydailynote.model.NoteModel
 import android.ktcodelab.mydailynote.presentation.components.NoteHolder
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -20,11 +21,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.ui.graphics.painter.Painter
 import android.ktcodelab.mydailynote.R
-import android.ktcodelab.mydailynote.util.Constants
-import io.realm.kotlin.internal.platform.isFrozen
-import io.realm.kotlin.mongodb.App
 
-
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
@@ -56,7 +54,6 @@ fun HomeContent(
                     items = notes,
                     key = { it._id.toString() }
                 ) {
-
                     NoteHolder(note = it, onClick = onClick)
                 }
 
@@ -76,7 +73,7 @@ fun DateHeader(localDate: LocalDate) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background (MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
